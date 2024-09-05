@@ -1,4 +1,5 @@
-// Пакет github предоставляет Go API для хостинга Github.
+// The github package provides a Go API for Github-hosting .
+// Пакет github предоставляет Go API для Github-хостинга .
 // См.https://developer.github.com/v3/search/$searchissues.
 
 package github
@@ -37,7 +38,7 @@ type User struct {
 // SearchIssues запрашивает Github.
 func SearchIssues(terms []string) (*IssuesSearchResult, error) {
 	q := url.QueryEscape(strings.Join(terms, " "))
-	resp, err := http.Get(IssuesURL + "?q=" + q)
+	resp, err := http.Get(IssuesURL + "?q=" + q + "&per_page=1000")
 	if err != nil {
 		return nil, err
 	}
