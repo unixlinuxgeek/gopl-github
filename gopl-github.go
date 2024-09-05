@@ -38,7 +38,7 @@ type User struct {
 // SearchIssues запрашивает Github.
 func SearchIssues(terms []string) (*IssuesSearchResult, error) {
 	q := url.QueryEscape(strings.Join(terms, " "))
-	resp, err := http.Get(IssuesURL + "?q=" + q + "&per_page=1000")
+	resp, err := http.Get(IssuesURL + "?q=" + q)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func SearchIssues2(terms []string, page int) (*IssuesSearchResult, error) {
 		page = 1
 	}
 	q := url.QueryEscape(strings.Join(terms, " "))
-	resp, err := http.Get(IssuesURL + "?q=" + q + "&page=" + strconv.Itoa(page))
+	resp, err := http.Get(IssuesURL + "?q=" + q + "&page=" + strconv.Itoa(page) + "&per_page=500")
 	if err != nil {
 		return nil, err
 	}
