@@ -58,12 +58,15 @@ func SearchIssues(terms []string) (*IssuesSearchResult, error) {
 }
 
 // SearchIssues2 запрашивает Github. (добавлена пагинация по страницам)
-func SearchIssues2(terms []string, page int) (*IssuesSearchResult, error) {
+func SearchIssues2(terms []string, page int, perPage int) (*IssuesSearchResult, error) {
+	if perPage == 0 {
+		perPage = 20
+	}
 	if page == 0 {
 		page = 1
 	}
 	q := url.QueryEscape(strings.Join(terms, " "))
-	resp, err := http.Get(IssuesURL + "?q=" + q + "&page=" + strconv.Itoa(page) + "&per_page=500")
+	resp, err := http.Get(IssuesURL + "?q=" + q + "&page=" + strconv.Itoa(page) + "&per_page=" + strconv.Itoa(perPage))
 	if err != nil {
 		return nil, err
 	}
