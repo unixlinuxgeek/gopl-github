@@ -84,3 +84,34 @@ func SearchIssues2(terms []string, page int, perPage int) (*IssuesSearchResult, 
 	resp.Body.Close()
 	return &result, nil
 }
+
+// SearchIssues3 запрашивает Github. (добавлена пагинация по страницам)
+func SearchIssues3(terms []string, page int, perPage int, dir string) (*IssuesSearchResult, error) {
+	if dir == "" {
+		dir = "asc"
+	}
+	if perPage == 0 {
+		perPage = 20
+	}
+	if page == 0 {
+		page = 1
+	}
+	q := url.QueryEscape(strings.Join(terms, " "))
+	resp, err := http.Get(IssuesURL + "?q=" + q + "&page=" + strconv.Itoa(page) + "&per_page=" + strconv.Itoa(perPage) + "&direction=" + dir)
+	if err != nil {
+		return nil, err
+	}
+	// Необходимо закрыть resp.Body на всех путях выполнения.
+	// (В главе 5 вы познакомитесь с более простым решением: `defer`.)
+	if resp.StatusCode != http.StatusOK {
+		resp.Body.Close()
+		return nil, fmt.Errorf("сбой запроса: %s", resp.Status)
+	}
+	var result IssuesSearchResult
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		resp.Body.Close()
+		return nil, err
+	}
+	resp.Body.Close()
+	return &result, nil
+}
