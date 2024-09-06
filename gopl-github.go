@@ -46,7 +46,7 @@ func SearchIssues(terms []string) (*IssuesSearchResult, error) {
 	// (В главе 5 вы познакомитесь с более простым решением: `defer`.)
 	if resp.StatusCode != http.StatusOK {
 		resp.Body.Close()
-		return nil, fmt.Errorf("Сбой запроса: %s", resp.Status)
+		return nil, fmt.Errorf("сбой запроса: %s", resp.Status)
 	}
 	var result IssuesSearchResult
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
@@ -74,7 +74,7 @@ func SearchIssues2(terms []string, page int, perPage int) (*IssuesSearchResult, 
 	// (В главе 5 вы познакомитесь с более простым решением: `defer`.)
 	if resp.StatusCode != http.StatusOK {
 		resp.Body.Close()
-		return nil, fmt.Errorf("Сбой запроса: %s", resp.Status)
+		return nil, fmt.Errorf("сбой запроса: %s", resp.Status)
 	}
 	var result IssuesSearchResult
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
